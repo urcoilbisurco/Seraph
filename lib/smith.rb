@@ -1,6 +1,0 @@
-require 'smith/utils'
-require 'smith/version'
-require 'smith/client'
-require 'smith/flow'
-require 'smith/token'
-require 'smith/connection'

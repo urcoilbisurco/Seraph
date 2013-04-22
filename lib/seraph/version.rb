@@ -1,4 +1,4 @@
-module Smith
+module Seraph
   class Version
     
     def self.to_s

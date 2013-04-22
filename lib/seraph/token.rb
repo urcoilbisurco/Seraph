@@ -1,4 +1,4 @@
-module Smith
+module Seraph
   class Token
     
     #attr_reader   :host, :connection_options
@@ -42,7 +42,7 @@ module Smith
         "grant_type"=>"refresh_token",
         "refresh_token"=>@refresh_token
       }
-      connection=Smith::Connection.new(URI.join(@client.base_url, @client.token_path))
+      connection=Seraph::Connection.new(URI.join(@client.base_url, @client.token_path))
       res=connection.do_post(params)
       
       setup_refresh_token(res.body)

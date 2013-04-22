@@ -1,4 +1,4 @@
-module Smith
+module Seraph
   class Client
     
     attr_accessor :client_id, :base_url, :client_secret, :authorize_path, :token_path, :device_path
@@ -23,15 +23,15 @@ module Smith
     end
     
     def authorization_code
-      Smith::Flow::AuthorizationCode.new(self)
+      Seraph::Flow::AuthorizationCode.new(self)
     end
     
     def implicit
-      Smith::Flow::Implicit.new(self)
+      Seraph::Flow::Implicit.new(self)
     end
     
     def password
-      Smith::Flow::Password.new(self)
+      Seraph::Flow::Password.new(self)
     end
     
     def to_s

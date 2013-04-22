@@ -1,4 +1,4 @@
-module Smith
+module Seraph
   module Flow
     # Authorization Code Grant
     # @see http://tools.ietf.org/html/draft-ietf-oauth-v2-31#section-4.1

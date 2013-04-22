@@ -2,7 +2,7 @@ require 'uri'
 require 'net/http'
 require 'net/https'
 
-module Smith
+module Seraph
   class Connection
     
     NET_HTTP_EXCEPTIONS = [
