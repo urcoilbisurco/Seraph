@@ -1,7 +1,8 @@
+require 'json'
 module Seraph
   class Client
     
-    attr_accessor :client_id, :base_url, :client_secret, :authorize_path, :token_path, :device_path
+    attr_accessor :client_id, :access_token, :base_url, :client_secret, :authorize_path, :token_path, :device_path
 
     DEFAULTS_PATHS = {
       :authorize_path     => '/oauth2/authorize',
@@ -14,9 +15,9 @@ module Seraph
       @base_url           = host
       @client_id          = client_id
       @client_secret      = client_secret
-      puts options[:token_path]
-      # @connection_options = options.fetch(:connection_options, {})
-      # @connection_client  = options.fetch(:connection_client, OAuth2::HttpConnection)
+      if(options[:access_token])
+        @access_token=Seraph::Token.new(self, options[:access_token])
+      end
       DEFAULTS_PATHS.keys.each do |key|
         instance_variable_set(:"@#{key}", options.fetch(key, DEFAULTS_PATHS[key]))
       end
@@ -32,6 +33,33 @@ module Seraph
     
     def password
       Seraph::Flow::Password.new(self)
+    end
+    
+    def access_token=(token_body)
+      @access_token=Seraph::Token.new(self,token_body)
+    end
+    
+    def get(url, params={})
+      puts "get method called"
+      call("get", url, params)
+    end
+    
+    def post(url, params={})
+      call("post", url, params)
+    end
+    
+    def call(method, url, params={})
+      token=@access_token.get_token
+      connection=Seraph::Connection.new(URI(url))
+      params.merge!("access_token"=>token)
+      puts "params call"
+      case method
+      when "get"
+        res=connection.do_get(params)
+      when "post"
+        res=connection.do_post(params)
+      end
+      JSON.parse(res.body)
     end
     
     def to_s

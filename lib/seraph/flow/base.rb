@@ -17,7 +17,7 @@ module Seraph
         puts "Response #{res.code} #{res.message}: #{res.body}"
         body=JSON.parse(res.body)
         puts body["access_token"]
-        token=Seraph::Token.new(body)
+        @client.access_token=body
       end
     end
   end

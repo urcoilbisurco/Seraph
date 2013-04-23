@@ -5,7 +5,8 @@ module Seraph
     attr_accessor :access_token
     
     
-    def initialize(options={})
+    def initialize(client, options={})
+      @client=client
       setup_refresh_token(options)
     end
     
@@ -26,30 +27,9 @@ module Seraph
       if(@refresh_token and !valid?)
           refresh!
       else
-        return @access_token
+        @access_token
       end
     end
-    
-    def valid?
-      Time.new < @expires_at
-    end
-    
-    def refresh!
-      #do the request to refresh the token and return the new token
-      # grant_type : "refresh_token"
-      # refresh_token : refresh_token
-      params={
-        "grant_type"=>"refresh_token",
-        "refresh_token"=>@refresh_token
-      }
-      connection=Seraph::Connection.new(URI.join(@client.base_url, @client.token_path))
-      res=connection.do_post(params)
-      
-      setup_refresh_token(res.body)
-      
-      puts "Response #{res.code} #{res.message}: #{res.body}"
-    end
-    
     
     # def to_s
     #   get_token
@@ -63,5 +43,31 @@ module Seraph
       out<<"expires_at: #{@expires_at}"
       out.join("\n")
     end
+    
+    
+    
+    private 
+      def valid?
+        Time.new < @expires_at
+      end
+    
+      def refresh!
+        #do the request to refresh the token and return the new token
+        # grant_type : "refresh_token"
+        # refresh_token : refresh_token
+        params={
+          "grant_type"=>"refresh_token",
+          "refresh_token"=>@refresh_token
+        }
+        connection=Seraph::Connection.new(URI.join(@client.base_url, @client.token_path))
+        res=connection.do_post(params)
+      
+        setup_refresh_token(res.body)
+      
+        puts "Response #{res.code} #{res.message}: #{res.body}"
+        @access_token
+      end
+    
+   
   end
 end

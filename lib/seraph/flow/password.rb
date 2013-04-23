@@ -16,10 +16,13 @@ module Seraph
         # password: password
         params={
           "grant_type"=>"password",
-          "username"=>options["username"],
-          "password"=>options["password"],
+          "username"=>options[:username],
+          "password"=>options[:password],
           "client_id"=>@client.client_id,
+          "client_secret"=>@client.client_secret
         }
+        puts "ok"
+        puts params
         super(params)
         
       end

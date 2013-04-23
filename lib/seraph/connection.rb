@@ -20,7 +20,7 @@ module Seraph
     
     
     
-    def initialize(host)
+    def initialize(url)
       @url=url
       @http = Net::HTTP.new(@url.host, @url.port)
       if (url.scheme=="https")
@@ -39,7 +39,8 @@ module Seraph
     
     def do_get(params)
       uri_params=URI.encode_www_form(params)
-      request = Net::HTTP::Get.new(@url.path+"/?"+uri_params)
+      p= uri_params ?  ("/?"+uri_params) : ""
+      request = Net::HTTP::Get.new(@url.path+p)
       res = @http.request(request)
       
       parse_response(res)
@@ -49,13 +50,13 @@ module Seraph
       status=res.code.to_i
       case status
       when 200..299
-        response
+        res
       when 301, 302, 303, 307
         raise "Expected redirect to #{res.header['Location']}"
       else
-        raise "Unhandled status code value of #{response.code}"
+        raise "Unhandled status code value of #{res.code}"
       end
-      response
+      res
     rescue *NET_HTTP_EXCEPTIONS
       raise "Error::ConnectionFailed, $!"
     end

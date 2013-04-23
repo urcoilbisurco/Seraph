@@ -1,3 +1,6 @@
+lib = File.expand_path('../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+
 Gem::Specification.new do |s|
   s.name        = 'Seraph'
   s.version     = '0.0.0'
@@ -6,7 +9,8 @@ Gem::Specification.new do |s|
   s.description = "A simple oauth gem"
   s.authors     = ["Francesco Marassi"]
   s.email       = 'francesco@trackthisfor.me'
-  s.files       = ["lib/Seraph.rb"]
+  s.files       = ["lib/seraph.rb"]
+  s.files       += Dir.glob("lib/**/*.rb")
   s.homepage    =
     'http://trackthisfor.me'
 end

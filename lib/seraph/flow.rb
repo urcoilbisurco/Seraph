@@ -1,5 +1,5 @@
-require 'Seraph/flow/base'
-require 'Seraph/flow/implicit'
-require 'Seraph/flow/authorization_code'
-require 'Seraph/flow/password'
+require 'seraph/flow/base'
+require 'seraph/flow/implicit'
+require 'seraph/flow/authorization_code'
+require 'seraph/flow/password'
 
