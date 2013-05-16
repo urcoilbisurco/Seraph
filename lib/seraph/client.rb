@@ -39,20 +39,18 @@ module Seraph
       @access_token=Seraph::Token.new(self,token_body)
     end
     
-    def get(url, params={})
-      puts "get method called"
-      call("get", url, params)
+    def get(path, params={})
+      call("get", path, params)
     end
     
-    def post(url, params={})
-      call("post", url, params)
+    def post(path, params={})
+      call("post", path, params)
     end
     
-    def call(method, url, params={})
+    def call(method, path, params={})
       token=@access_token.get_token
-      connection=Seraph::Connection.new(URI(url))
+      connection=Seraph::Connection.new(URI(@base_url+path))
       params.merge!("access_token"=>token)
-      puts "params call"
       case method
       when "get"
         res=connection.do_get(params)

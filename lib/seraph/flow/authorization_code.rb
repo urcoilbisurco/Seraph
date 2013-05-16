@@ -12,7 +12,7 @@ module Seraph
         url=URI.join(@client.base_url,@client.authorize_path)
         puts options[:redirect_uri]
         params=URI.encode_www_form("response_type" => "code",
-                            #"scope" => options.scope,
+                            "scope" => options[:scope],
                             "client_id"=>@client.client_id,
                             "redirect_uri"=>options[:redirect_uri])
         url.to_s+"/?"+params

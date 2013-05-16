@@ -2,7 +2,7 @@ lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |s|
-  s.name        = 'Seraph'
+  s.name        = 'seraph'
   s.version     = '0.0.0'
   s.date        = '2013-04-17'
   s.summary     = "this is the summary"

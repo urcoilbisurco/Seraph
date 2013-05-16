@@ -10,7 +10,6 @@ module Seraph
       #   username
       #   password
       def get_token(options={})
-        puts options
         # grant_type : password
         # username: username
         # password: password
@@ -21,8 +20,6 @@ module Seraph
           "client_id"=>@client.client_id,
           "client_secret"=>@client.client_secret
         }
-        puts "ok"
-        puts params
         super(params)
         
       end
