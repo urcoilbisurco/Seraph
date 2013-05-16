@@ -29,24 +29,23 @@ module Seraph
       end  
     end
     
-    def do_post(params)
+    def call(method, params)
       token=params.delete "access_token"
       headers =  token ? { "Authorization" => "Bearer #{token}" } : {}
-      request = Net::HTTP::Post.new(@url.path, headers)
-      request.set_form_data(params)
-      res = @http.request(request)
-      parse_response(res)
-    end
-    
-    def do_get(params)
-      token=params.delete "access_token"
-      headers =  token ? { "Authorization" => "Bearer #{token}" } : {}
-      uri_params=URI.encode_www_form(params)
-      p= uri_params ?  ("?"+uri_params) : ""
-      request = Net::HTTP::Get.new(@url.path+p, headers)
-      puts @url.path
-      puts p
-      puts @url.path+p
+      case method
+      when "get"
+        uri_params=URI.encode_www_form(params)
+        p= uri_params ?  ("?"+uri_params) : ""
+        request = Net::HTTP::Get.new(@url.path+p, headers)
+      when "post"
+        request = Net::HTTP::Post.new(@url.path, headers)
+        request.set_form_data(params)
+      when "put"
+        request = Net::HTTP::Put.new(@url.path, headers)
+        request.set_form_data(params)
+      when "delete"
+        request = Net::HTTP::DELETE.new(@url.path, headers)
+      end
       res = @http.request(request)
       parse_response(res)
     end

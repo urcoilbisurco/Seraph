@@ -47,16 +47,19 @@ module Seraph
       call("post", path, params)
     end
     
+    def put(path, params={})
+      call("put", path, params)
+    end
+    
+    def delete(path, params={})
+      call("delete", path, params)
+    end
+    
     def call(method, path, params={})
       token=@access_token.get_token
       connection=Seraph::Connection.new(URI(@base_url+path))
       params.merge!("access_token"=>token)
-      case method
-      when "get"
-        res=connection.do_get(params)
-      when "post"
-        res=connection.do_post(params)
-      end
+      res=connection.call(method, path, params)
       JSON.parse(res.body)
     end
     
