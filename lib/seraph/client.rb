@@ -55,23 +55,25 @@ module Seraph
       call("delete", path, params)
     end
     
-    def call(method, path, params={})
-      token=@access_token.get_token
-      connection=Seraph::Connection.new(URI(@base_url+path))
-      params.merge!("access_token"=>token)
-      res=connection.call(method, path, params)
-      JSON.parse(res.body)
-    end
+    private 
     
-    def to_s
-      out=[]
-      out<<"host:#{@base_url}"
-      out<<"client_id: #{@client_id}"
-      out<<"client_secret: #{@client_secret}"
-      out<<"authorize_path: #{@authorize_path}"
-      out<<"token_path: #{@token_path}"
-      out<<"device_path: #{@device_path}"
-      out.join("\n")
-    end
+      def call(method, path, params={})
+        token=@access_token.get_token
+        connection=Seraph::Connection.new(URI(@base_url+path))
+        params.merge!("access_token"=>token)
+        res=connection.call(method, path, params)
+        JSON.parse(res.body)
+      end
+    
+      def to_s
+        out=[]
+        out<<"host:#{@base_url}"
+        out<<"client_id: #{@client_id}"
+        out<<"client_secret: #{@client_secret}"
+        out<<"authorize_path: #{@authorize_path}"
+        out<<"token_path: #{@token_path}"
+        out<<"device_path: #{@device_path}"
+        out.join("\n")
+      end
   end
 end
